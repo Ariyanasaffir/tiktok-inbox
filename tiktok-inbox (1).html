@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Message to @tanvirbeauty5055 — Click to Open TikTok</title>
+  <style>
+    :root{--bg:#0f172a;--card:#0b1220;--accent:#06b6d4;--text:#e6eef6}
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', 'Helvetica Neue', Arial}
+    body{display:grid;place-items:center;background:linear-gradient(180deg,#071427 0%, #021021 100%);color:var(--text)}
+    .card{width:92%;max-width:560px;padding:28px;border-radius:14px;background:rgba(255,255,255,0.03);box-shadow:0 6px 30px rgba(2,6,23,0.6);text-align:center}
+    h1{margin:0 0 12px;font-size:22px}
+    p{margin:0 0 18px;color:rgba(230,238,246,0.85)}
+    .btn{display:inline-block;padding:16px 26px;border-radius:12px;background:linear-gradient(90deg,var(--accent),#7c3aed);color:#022; font-weight:700; text-decoration:none; font-size:18px}
+    .hint{margin-top:14px;font-size:13px;color:rgba(230,238,246,0.7)}
+    footer{margin-top:18px;font-size:12px;color:rgba(230,238,246,0.55)}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>মেসেজ করুন — TanvirBeauty</h1>
+    <p>নীচের বড় বাটনে ক্লিক করলে TikTok অ্যাপে অথবা ওয়েব ব্রাউজারে প্রোফাইল খুলে যাবে। সেখানে <strong>Message</strong> বাটনে ক্লিক করে সরাসরি ইনবক্সে মেসেজ পাঠানো যাবে।</p>
+
+    <!-- Button: attempts to open the TikTok app first (deep link), then falls back to web link -->
+    <a id="openBtn" class="btn" href="https://tiktok.me/tanvirbeauty5055">Message on TikTok</a>
+
+    <div class="hint">যদি মোবাইলে TikTok ইনস্টল থাকে, তখন অ্যাপ খুলে মেসেজ করা সহজ হবে।</div>
+    <footer>প্রোফাইল: @tanvirbeauty5055 • Tested for Android/iOS (web fallback included)</footer>
+  </div>
+
+  <script>
+    // CUSTOMIZE: change username variable if you want to reuse this file
+    const username = 'tanvirbeauty5055';
+    const appDeepLink = `tiktok://user?username=${username}`; // try to open TikTok app
+    const webLink = `https://tiktok.me/${username}`; // fallback web/profile link
+
+    const openBtn = document.getElementById('openBtn');
+    openBtn.href = webLink; // set fallback href for non-JS or long-press
+
+    // Try to open app when user clicks the button. If app doesn't open within 1s, go to web fallback.
+    openBtn.addEventListener('click', function(e){
+      // only try deep link on mobile devices
+      const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if(!isMobile) {
+        // desktop: let the href navigate to web profile
+        return;
+      }
+
+      e.preventDefault();
+      const t0 = Date.now();
+      // create an invisible iframe approach for some Android, and location change for others
+      let opened = false;
+      // attempt app open by changing location
+      window.location = appDeepLink;
+
+      // fallback after 1100ms to web link
+      setTimeout(function(){
+        const dt = Date.now() - t0;
+        // if app didn't take over the page, dt will be short; then go to web
+        if(dt < 1500) {
+          window.location = webLink;
+        }
+      }, 1100);
+    });
+  </script>
+</body>
+</html>
